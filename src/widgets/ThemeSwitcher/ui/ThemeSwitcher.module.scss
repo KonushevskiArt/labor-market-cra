@@ -1,0 +1,14 @@
+.themeSwitcher {
+  background: transparent;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 50%;
+  padding: 10px;
+  margin-right: 8px;
+
+  &:hover {
+    background-color: #0000001d;
+  }
+}

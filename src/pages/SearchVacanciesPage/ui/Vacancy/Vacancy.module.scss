@@ -1,0 +1,17 @@
+.Vacancy {
+  display: block;
+  background-color: (var(--second-bg-color));
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.contactButton, .contact {
+  margin-left: 15px;
+}
+
+.paragraph {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

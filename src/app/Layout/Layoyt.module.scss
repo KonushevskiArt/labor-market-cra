@@ -1,0 +1,27 @@
+
+.header {
+  width: 100%;
+  max-width: 1200px;
+  height: var(--navbar-height);
+  background: var(--navbar-bg);
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.main {
+  padding: 0 20px;
+  margin-top: 30px;
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  color: var(--primary-color);
+}

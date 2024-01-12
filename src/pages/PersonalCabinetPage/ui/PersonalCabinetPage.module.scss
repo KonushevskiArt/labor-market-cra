@@ -1,0 +1,38 @@
+.page {
+  background-color: var(--second-bg-color);
+  padding: 30px;
+}
+
+.listTitle {
+  margin-bottom: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.vacanciesList {
+  padding-left: 20px;
+}
+
+.vacancy {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.vacancyInfo {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.vacancyEditor {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}

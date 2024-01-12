@@ -1,0 +1,58 @@
+:root {
+  --font-family-main: "Roboto", sans-serif;
+  --font-size-sm: 16px;
+  --font-line-sm: 24px;
+  --font-sm: var(--font-size-sm) / var(--font-line-sm) var(--font-family-main);
+  --font-size-md: 16px;
+  --font-line-md: 24px;
+  --font-md: var(--font-size-md) / var(--font-line-md) var(--font-family-main);
+  --font-size-lg: 24px;
+  --font-line-lg: 32px;
+  --font-lg: var(--font-size-lg) / var(--font-line-lg) var(--font-family-main);
+  --font-size-xl: 32px;
+  --font-line-xl: 40px;
+  --font-xl: var(--font-size-xl) / var(--font-line-xl) var(--font-family-main);
+
+  // Sizes
+  --navbar-height: 80px;
+  --link-color: #4a97e9;
+  --error-color: #e83964;
+}
+
+.fs-lg {
+  font: var(--font-lg);
+}
+
+.fs-md {
+  font: var(--font-md);
+}
+
+.fs-xl {
+  font: var(--font-xl);
+}
+
+.fs-sm {
+  font: var(--font-sm);
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mb-25 {
+  margin-bottom: 15px;
+}
+
+.link {
+  color: var(--link-color); 
+  text-decoration: none;
+
+  &:hover {
+    border-bottom: 1px solid var(--link-color);
+  }
+}
+
+.icon > svg {
+  height: 20px;
+  width: 20px;
+}

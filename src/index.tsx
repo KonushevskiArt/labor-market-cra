@@ -1,19 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './app/App'
+import { BrowserRouter } from 'react-router-dom'
+import { ThemeProvider } from './app/providers/ThemeProvider'
+import './shared/config/i18n/i18n'
+import { StrictMode } from 'react'
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+import { createRoot } from 'react-dom/client'
+import { ErrorBoundary } from './app/providers/ErrorBoundary'
+
+const container = document.getElementById('app') as HTMLElement
+const root = createRoot(container) // createRoot(container!) if you use TypeScript
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  <StrictMode>
+    <BrowserRouter>
+      <ErrorBoundary>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </ErrorBoundary>
+    </BrowserRouter>
+  </StrictMode>
+)

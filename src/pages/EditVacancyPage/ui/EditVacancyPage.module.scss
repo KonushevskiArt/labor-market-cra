@@ -1,0 +1,143 @@
+.wrapper {
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--second-bg-color);
+  max-width: 1200px;
+}
+
+.text {
+  margin-top: 50px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.error {
+  display: block;
+  font-size: var(--font-size-md);
+  color: var(--error-color);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form {
+  font-size: var(--font-size-md);
+  display: flex;
+  width: 100%;
+  gap: 60px;
+}
+
+.textAreaWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 20%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  min-width: 300px;
+  border: 1px solid white;
+}
+
+.inputsWrapper {
+  box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 20%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  min-width: 300px;
+  border: 1px solid white;
+}
+
+.label.label {
+  font-size: var(--font-size-md);
+  font-weight: bold;
+}
+
+.formItem {
+  width: 260px;
+  margin: 0;
+}
+
+.input {
+  font-size: var(--font-size-md);
+  margin: 0;
+}
+
+.inputWrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.locationWrapper, .salaryWrapper {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.locationLabel, .salaryLabel {
+  position: absolute;
+  top: -16px;
+  left: 15px;
+  font-style: italic;
+  display: inline-block;
+  background-color: var(--second-bg-color);
+  font-size: var(--font-size-md);
+  padding: 2px 5px;
+}
+
+@media (width <= 992px) {
+  .form {
+    flex-direction: column;
+  }
+}
+
+@media (width <= 576px) {
+  .form {
+    width: 100%;
+  }
+
+  .inputWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .label.label {
+    text-align: left;
+    display: block;
+  }
+
+  .textAreaWrapper {
+    padding: 20px 10px;
+    min-width: 100%;
+  }
+  
+  .inputsWrapper {
+    padding: 20px 10px;
+    width: 100%;
+  }
+
+  .wrapper {
+    padding: 10px;
+  }
+
+  .formItem {
+    width: 100%;
+    margin: 0;
+  }
+}

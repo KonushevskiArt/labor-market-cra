@@ -1,0 +1,30 @@
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.navLink {
+  color: var(--link-color);
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  font-size: var(--font-size-md);
+
+  &:hover {
+    background-color: #a4a4a42e;
+  }
+}
+
+.active {
+  background-color: #adacac1d;
+}
+
+.burgerButton.burgerButton {
+  padding: 5px;
+  color: white;
+  border-color: white;
+}

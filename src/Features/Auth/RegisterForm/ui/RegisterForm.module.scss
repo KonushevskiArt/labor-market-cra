@@ -1,0 +1,41 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-color);
+  padding: 40px 0;
+}
+
+.registrationMessage {
+  margin-top: 15px;
+}
+
+.buttonLink {
+  padding: 0;
+}
+
+.input {
+  color: var(--primary-color);
+  background: transparent;
+  font: var(--font-md);
+  border-radius: 5px;
+  padding: 5px;
+  min-width: 220px;
+  border: 1px solid;
+  margin-bottom: 5px;
+}
+
+.labelTitle {
+  display: block;
+}
+
+.label {
+  margin-bottom: 20px;
+}
+
+.error {
+  display: block;
+  width: 220px;
+  color: var(--error-color);
+}
