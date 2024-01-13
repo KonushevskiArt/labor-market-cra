@@ -9,10 +9,15 @@ export const vacanciesApi = createApi({
   tagTypes: ['Vacancies', 'VacanciesByUid'],
   endpoints: (builder) => ({
     fetchVacancies: builder.query({
-      async queryFn () {
+      async queryFn (title: string) {
         try {
-          const vacanciesRef = query(collection(db, 'vacancies'))
-          const querySnapshot = await getDocs(vacanciesRef)
+          const vacanciesRef = collection(db, 'vacancies')
+          
+          const q = title.trim() !== '' 
+          ? query(vacanciesRef, where('title', '==', `${title}`))
+          : query(vacanciesRef)
+    
+          const querySnapshot = await getDocs(q)
           const vacancies = [] as any
           //  add validation of the response
           querySnapshot?.forEach((doc) => {
@@ -102,5 +107,6 @@ export const {
   useAddVacancyMutation,
   useRemoveVacancyMutation,
   useUpdateVacancyMutation,
-  useFetchVacanciesByUidQuery
+  useFetchVacanciesByUidQuery,
+  useLazyFetchVacanciesQuery
 } = vacanciesApi

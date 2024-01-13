@@ -8,18 +8,20 @@ const { Search } = Input
 
 interface SearchBarProps {
   className?: string
+  onClick: (title: string) => void
 }
 
-export const SearchBar: FC = ({ className }: SearchBarProps) => {
+export const SearchBar: FC<SearchBarProps> = ({ onClick }) => {
   const { t } = useTranslation()
+
   const onSearch = (value: string): void => {
-    console.log('search')
+    onClick(value)
   }
 
   return (
     <div className={classNames(cls.SearchBar, {}, [])}>
       <div className={cls.wrapper}>
-        <Search disabled placeholder={t('searchText')} onSearch={onSearch} enterButton />
+        <Search placeholder={t('searchText')} onSearch={onSearch} enterButton />
       </div>
     </div>
   )

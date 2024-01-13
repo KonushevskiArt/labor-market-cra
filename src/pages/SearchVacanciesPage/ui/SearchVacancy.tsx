@@ -3,28 +3,21 @@ import { useState, type FC, useEffect } from 'react'
 import { Container } from 'shared/ui/Container'
 import { Vacancy } from 'pages/SearchVacanciesPage/ui/Vacancy/Vacancy'
 import { SearchBar } from 'widgets/SearchBar'
-import { useFetchVacanciesQuery } from 'entities/Vacancy/api'
+import { useFetchVacanciesQuery, useLazyFetchVacanciesQuery } from 'entities/Vacancy/api'
 import PageSkeleton from 'widgets/PageSkeleton'
 import toast from 'react-hot-toast'
 import { Pagination, type PaginationProps } from 'antd'
 import { type IVacancy } from 'entities/Vacancy/types'
-
-interface SearchVacancyProps {
-  className?: string
-}
-
-const getDisplayedItemsFromDataArray = (dataArray: IVacancy[], page: number, numberDisplayedVacancies: number): IVacancy[] => {
-  const firstEl = page === 1 ? 0 : (page - 1) * numberDisplayedVacancies
-  const lastEl = page * numberDisplayedVacancies
-  return dataArray.slice(firstEl, lastEl)
-}
+import { getDisplayedItemsFromDataArray } from './helpers/getDisplayedItemsFromDataArray'
+import { SearchVacancyBar } from './SearchVacancyBar/SearchVacancyBar'
 
 const pageSizeOption = [10, 25, 50]
 
-export const SearchVacancy: FC = ({ className }: SearchVacancyProps) => {
+export const SearchVacancy: FC = () => {
   const [displayedVacancies, setDisplayedVacancies] = useState<IVacancy[]>([])
-  const { data, isLoading, isError, error } = useFetchVacanciesQuery(null)
-
+  const [fetchVacancies, results] = useLazyFetchVacanciesQuery()
+  const { data, isLoading, isError, error } = results
+  
   useEffect(() => {
     if (data) {
       setDisplayedVacancies(data.slice(0, pageSizeOption[0]))
@@ -53,7 +46,7 @@ export const SearchVacancy: FC = ({ className }: SearchVacancyProps) => {
 
   return (
     <Container>
-      <SearchBar />
+      <SearchVacancyBar fetchVacancies={fetchVacancies} />
       {isLoading
         ? <PageSkeleton />
         : <ul className={cls.SearchVacancy}>
