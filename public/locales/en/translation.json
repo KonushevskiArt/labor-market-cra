@@ -14,7 +14,7 @@
   "solary": "salary",
   "salary": "Salary",
   "posted": "Posted",
-  "searchText": "search text",
+  "searchText": "vacancy title",
   "showContacts": "show contacts",
   "description": "Description",
   "workExperience": "Work experience",
@@ -64,5 +64,6 @@
   "locales": "en",
   "YouNeedToLogInOrRegister": "If you want to add, delete or edit your vacancies, you need to log in or register",
   "listOfYourVacancies": "List of your vacancies:",
-  "fullTime": "Full-time"
+  "fullTime": "Full-time",
+  "sortBy": "Sort by"
 }

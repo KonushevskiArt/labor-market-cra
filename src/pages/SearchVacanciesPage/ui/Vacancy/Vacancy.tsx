@@ -55,9 +55,11 @@ export const Vacancy: FC<VacancyProps> = ({ data }) => {
       <p className={cls.paragraph}><HomeOutlined className='icon' /><i>{t('city')}</i>: <b>{location.city}</b></p>
       <p className={cls.paragraph}><DollarOutlined className='icon' /><i>{t('salary')}</i>: {salaryView}</p>
       <Divider plain></Divider>
-      <p className={cls.paragraph}>
-        <HourglassOutlined className='icon' />
-        <i>{t('posted')}</i>: <b>{viewDate}</b>
+      <p className={cls.bottom}>
+        <p>
+          <HourglassOutlined className='icon' />
+          <i>{t('posted')}</i>: <b>{viewDate}</b>
+        </p>
         {isShowContact
           ? <span className={cls.contact}>{contactNumber}</span>
           : <Button onClick={handleShowContact} type='primary' ghost className={cls.contactButton}>
