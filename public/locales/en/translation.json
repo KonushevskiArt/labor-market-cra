@@ -65,5 +65,10 @@
   "YouNeedToLogInOrRegister": "If you want to add, delete or edit your vacancies, you need to log in or register",
   "listOfYourVacancies": "List of your vacancies:",
   "fullTime": "Full-time",
-  "sortBy": "Sort by"
+  "sortBy": "Sort by",
+  "search": "Search",
+  "from": "from",
+  "to": "to",
+  "theLowerThresholdOfExperienceExceeds": "the lower threshold of work experience exceeds the upper one",
+  "theLowerThresholdOfSalaryExceeds": "the lower salary threshold exceeds the upper one"
 }

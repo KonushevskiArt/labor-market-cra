@@ -63,5 +63,10 @@
   "YouNeedToLogInOrRegister": "Если вы хотите добавить удалить или отредактировать свои вакансии, вам необходимо авторизоваться или зарегестрироваться ",
   "listOfYourVacancies": "Список ваших вакансий:",
   "fullTime": "Полный рабочий день",
-  "sortBy": "Сортировать по"
+  "sortBy": "Сортировать по",
+  "search": "Найти",
+  "from": "от",
+  "to": "до",
+  "theLowerThresholdOfExperienceExceeds": "нижний порог стажа работы превышает верхний",
+  "theLowerThresholdOfSalaryExceeds": "нижний порог зарплаты превышает верхний"
 }
