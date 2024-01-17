@@ -13,11 +13,13 @@ import { useTranslation } from 'react-i18next'
 import { EditOutlined } from '@ant-design/icons'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { type IVacancy } from 'entities/Vacancy/types'
-import { useUpdateVacancyMutation } from 'entities/Vacancy/api'
+import { useUpdateVacancyApiMutation } from 'entities/Vacancy/api'
 import { convertFormDataToNewVacancy } from 'shared/helpers/convertFormDataToNewVacancy'
 import { useAuth } from 'shared/hooks/useAuth'
 import toast from 'react-hot-toast'
 import { RouterPaths } from 'shared/RouterPaths'
+import { useTypedDispatch } from 'app/store'
+import { updateVacancy } from 'entities/Vacancy/model/vacanciesSlice'
 
 export interface IFormInput {
   title: string
@@ -50,7 +52,7 @@ const EditVacancyPage: FC = () => {
     salary,
     id
   } = vacancy
-  const [updateVacancy, { isLoading }] = useUpdateVacancyMutation()
+  const [updateVacancyApi, { isLoading }] = useUpdateVacancyApiMutation()
 
   const { control, handleSubmit, formState: { errors }, reset } = useForm({
     defaultValues: {
@@ -69,6 +71,7 @@ const EditVacancyPage: FC = () => {
   })
 
   const { t } = useTranslation()
+  const dispatch = useTypedDispatch()
 
   // const employmentMap = {
   //   fourHoursPerDay: t('fourHoursPerDay'),
@@ -84,7 +87,8 @@ const EditVacancyPage: FC = () => {
       if (uid && userName) {
         const createdBy = { userName, uid }
         const vacancy = convertFormDataToNewVacancy(data, createdBy)
-        await updateVacancy({ id, vacancy })
+        await updateVacancyApi({ id, vacancy })
+        dispatch(updateVacancy({...vacancy, id}))
         reset()
         navigate(RouterPaths.personalCabinetPage)
       }

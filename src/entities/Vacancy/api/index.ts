@@ -1,5 +1,5 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp, updateDoc, query, where } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp, updateDoc, query, where, setDoc } from 'firebase/firestore'
 import { db } from 'app/firebase'
 import { type IVacancy, type INewVacancy } from 'entities/Vacancy/types'
 
@@ -63,10 +63,11 @@ export const vacanciesApi = createApi({
       },
       providesTags: ['VacanciesByUid']
     }),
-    addVacancy: builder.mutation({
-      async queryFn (data: INewVacancy): Promise<{ data: string } | any> {
+    addVacancyApi: builder.mutation({
+      async queryFn (data: IVacancy): Promise<{ data: string } | any> {
         try {
-          await addDoc(collection(db, 'vacancies'), data)
+          // await addDoc(collection(db, 'vacancies', data.id), data)
+          await setDoc(doc(db, 'vacancies', data.id), data);
           return { data: 'ok' }
         } catch (error) {
           return error
@@ -74,7 +75,7 @@ export const vacanciesApi = createApi({
       },
       invalidatesTags: ['Vacancies', 'VacanciesByUid']
     }),
-    removeVacancy: builder.mutation({
+    removeVacancyApi: builder.mutation({
       async queryFn (id: string): Promise<{ data: string } | any> {
         try {
           await deleteDoc(doc(db, 'vacancies', id))
@@ -85,7 +86,7 @@ export const vacanciesApi = createApi({
       },
       invalidatesTags: ['Vacancies', 'VacanciesByUid']
     }),
-    updateVacancy: builder.mutation({
+    updateVacancyApi: builder.mutation({
       async queryFn ({ id, vacancy }: { id: string, vacancy: INewVacancy }): Promise<{ data: string } | any> {
         try {
           await updateDoc(doc(db, 'vacancies', id), {
@@ -104,9 +105,9 @@ export const vacanciesApi = createApi({
 
 export const {
   useFetchVacanciesQuery,
-  useAddVacancyMutation,
-  useRemoveVacancyMutation,
-  useUpdateVacancyMutation,
+  useAddVacancyApiMutation,
+  useRemoveVacancyApiMutation,
+  useUpdateVacancyApiMutation,
   useFetchVacanciesByUidQuery,
   useLazyFetchVacanciesQuery
 } = vacanciesApi

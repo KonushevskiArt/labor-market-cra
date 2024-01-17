@@ -9,8 +9,9 @@ import { Pagination, type PaginationProps } from 'antd'
 import { type IVacancy } from 'entities/Vacancy/types'
 import { getDisplayedItemsFromDataArray } from './helpers/getDisplayedItemsFromDataArray'
 import { SearchVacancyBar } from './SearchVacancyBar/SearchVacancyBar'
-import { useTypedSelector } from 'app/store'
-import { SortVacancyInterface } from './SortVacancyInterface/SortVacancyInterface'
+import { useTypedDispatch, useTypedSelector } from 'app/store'
+import { SortVacancyInterface } from 'Features/SortVacancy'
+import { FilterVacancyInterface } from 'Features/FilterVacancy'
 
 const pageSizeOption = [10, 25, 50]
 
@@ -18,13 +19,13 @@ export const SearchVacancy: FC = () => {
   const [displayedVacancies, setDisplayedVacancies] = useState<IVacancy[]>([])
   const [fetchVacancies, results] = useLazyFetchVacanciesQuery()
   const { isLoading, isError, error } = results
-  const fetchedData = useTypedSelector((stor) => stor.vacancies.fetchedData)
+  const vacancies = useTypedSelector((stor) => stor.vacancies.vacancies)
 
   useEffect(() => {
-    if (fetchedData) {
-      setDisplayedVacancies(fetchedData.slice(0, pageSizeOption[0]))
+    if (vacancies) {
+      setDisplayedVacancies(vacancies.slice(0, pageSizeOption[0]))
     }
-  }, [fetchedData])
+  }, [vacancies])
 
   if (isError) {
     const messageError = error as string
@@ -33,15 +34,15 @@ export const SearchVacancy: FC = () => {
   }
 
   const handleChange = (page: number, pageSize: number): void => {
-    if (fetchedData) {
-      const newDisplayedItems = getDisplayedItemsFromDataArray(fetchedData, page, pageSize)
+    if (vacancies) {
+      const newDisplayedItems = getDisplayedItemsFromDataArray(vacancies, page, pageSize)
       setDisplayedVacancies(newDisplayedItems)
     }
   }
 
   const onShowSizeChange: PaginationProps['onShowSizeChange'] = (page, pageSize) => {
-    if (fetchedData) {
-      const newDisplayedItems = getDisplayedItemsFromDataArray(fetchedData, page, pageSize)
+    if (vacancies) {
+      const newDisplayedItems = getDisplayedItemsFromDataArray(vacancies, page, pageSize)
       setDisplayedVacancies(newDisplayedItems)
     }
   }
@@ -50,23 +51,26 @@ export const SearchVacancy: FC = () => {
     <Container>
       <SearchVacancyBar fetchVacancies={fetchVacancies} />
       <SortVacancyInterface />
-      {isLoading
-        ? <PageSkeleton />
-        : <ul className={cls.SearchVacancy}>
-            {displayedVacancies?.map((vacancy) => (
-              <li key={vacancy.id}>
-                <Vacancy data={vacancy} />
-              </li>
-            ))}
-          </ul>
-      }
+      <div className={cls.wrapper}>
+        <FilterVacancyInterface />
+        {isLoading
+          ? <PageSkeleton />
+          : <ul className={cls.SearchVacancy}>
+              {displayedVacancies?.map((vacancy) => (
+                <li key={vacancy.id}>
+                  <Vacancy data={vacancy} />
+                </li>
+              ))}
+            </ul>
+        }
+      </div>
       <Pagination
         className={cls.Pagination}
         showSizeChanger
         pageSizeOptions={pageSizeOption}
         defaultCurrent={1}
         hideOnSinglePage
-        total={fetchedData?.length}
+        total={vacancies?.length}
         onChange={handleChange}
         onShowSizeChange={onShowSizeChange}
       />

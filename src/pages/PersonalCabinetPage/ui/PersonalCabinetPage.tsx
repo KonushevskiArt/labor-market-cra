@@ -4,21 +4,25 @@ import { Container } from 'shared/ui/Container'
 import { useTranslation } from 'react-i18next'
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
-import { useFetchVacanciesByUidQuery, useRemoveVacancyMutation } from 'entities/Vacancy/api'
+import { useFetchVacanciesByUidQuery, useRemoveVacancyApiMutation } from 'entities/Vacancy/api'
 import { useAuth } from 'shared/hooks/useAuth'
 import PageSkeleton from 'widgets/PageSkeleton'
 import toast from 'react-hot-toast'
 import { RouterPaths } from 'shared/RouterPaths'
 import { DeleteOutlined, EditOutlined, LinkOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { useTypedDispatch } from 'app/store'
+import { removeVacancy } from 'entities/Vacancy/model/vacanciesSlice'
 
 interface PersonalCabinetPageProps {
   className?: string
 }
 
+
 export const PersonalCabinetPage: FC = ({ className }: PersonalCabinetPageProps) => {
   const { t } = useTranslation()
   const { uid, isAuth } = useAuth()
   const { data, isLoading, isError, error } = useFetchVacanciesByUidQuery(uid)
+  const dispatch = useTypedDispatch()
 
   if (isError) {
     const messageError = error as string
@@ -26,13 +30,13 @@ export const PersonalCabinetPage: FC = ({ className }: PersonalCabinetPageProps)
     console.log(error)
   }
 
-  const [removeVacancy] = useRemoveVacancyMutation()
+  const [removeVacancyApi] = useRemoveVacancyApiMutation()
 
   const handleDeleteVacancy = (id: string): void => {
     if (window.confirm('Are you sure to delete ?')) {
-      removeVacancy(id)
-        .then((data) => {
-          console.log(data)
+      removeVacancyApi(id)
+        .then(() => {
+          dispatch(removeVacancy({id}))
           toast.success('vacancy removed successfully')
         })
         .catch((err) => { console.log(err) })

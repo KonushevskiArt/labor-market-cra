@@ -42,7 +42,22 @@ export const Vacancy: FC<VacancyProps> = ({ data }) => {
     day: 'numeric'
   }
 
+   const employmentMap = {
+    fourHoursPerDay: t('fourHoursPerDay'),
+    notFullDay: t('notFullDay'),
+    inTheEvenings: t('InTheEvenings'),
+    onWeekends: t('onWeekends'),
+    oneTimeTask: t('OneTimeTask'),
+    fullTime: t('fullTime')
+  }
+
   const viewDate = new Date(date).toLocaleString(t('locales'), options)
+
+  type keysOfEmployment = keyof typeof employmentMap
+  let business;
+  if (employmentMap[employment as keysOfEmployment]) {
+    business = employmentMap[employment as keysOfEmployment]
+  }
 
   return (
     <div className={classNames(cls.Vacancy, {}, [])}>
@@ -51,11 +66,11 @@ export const Vacancy: FC<VacancyProps> = ({ data }) => {
       </h3>
       <Divider plain></Divider>
       <p className={cls.paragraph}><UserOutlined className='icon' /><i>{t('createdBy')}</i>: <b>{createdBy.userName}</b></p>
-      <p className={cls.paragraph}><PieChartOutlined className='icon' /><i>{t('busyness')}</i>: <b>{employment}</b> </p>
+      <p className={cls.paragraph}><PieChartOutlined className='icon' /><i>{t('busyness')}</i>: <b>{business}</b> </p>
       <p className={cls.paragraph}><HomeOutlined className='icon' /><i>{t('city')}</i>: <b>{location.city}</b></p>
       <p className={cls.paragraph}><DollarOutlined className='icon' /><i>{t('salary')}</i>: {salaryView}</p>
       <Divider plain></Divider>
-      <p className={cls.bottom}>
+      <div className={cls.bottom}>
         <p>
           <HourglassOutlined className='icon' />
           <i>{t('posted')}</i>: <b>{viewDate}</b>
@@ -66,7 +81,7 @@ export const Vacancy: FC<VacancyProps> = ({ data }) => {
             <PhoneOutlined className='icon'/>{t('showContacts')}
           </Button>
         }
-      </p>
+      </div>
     </div>
   )
 }

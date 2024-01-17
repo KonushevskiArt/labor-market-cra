@@ -4,7 +4,7 @@ import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { QueryDefinition, BaseQueryFn } from '@reduxjs/toolkit/query';
 import { IVacancy } from 'entities/Vacancy/types';
 import { useTypedDispatch } from 'app/store';
-import { setVacanciesData } from 'entities/Vacancy/model/vacanciesSlice';
+import { setVacancies } from 'entities/Vacancy/model/vacanciesSlice';
 import toast from 'react-hot-toast';
 
 interface PropsSearchVacancyBar {
@@ -18,7 +18,7 @@ export const SearchVacancyBar: FC<PropsSearchVacancyBar> = ({fetchVacancies}) =>
     try {
       const response = await fetchVacancies(title)
       if (response.data) {
-        dispatch(setVacanciesData(response?.data))
+        dispatch(setVacancies(response?.data))
       }
     } catch (error: any) {
       const messageError = error.message as string

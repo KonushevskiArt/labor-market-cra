@@ -3,25 +3,43 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { IVacancy } from '../types'
 
 interface IState {
-  displayedVacancies: IVacancy[]
-  fetchedData: IVacancy[]
+  vacancies: IVacancy[]
 }
 
 const initialState: IState = {
-  displayedVacancies: [],
-  fetchedData: []
+  vacancies: []
 }
 
 const vacanciesSlice = createSlice({
   name: 'vacancies',
   initialState,
   reducers: {
-    setVacanciesData (state, action: PayloadAction<IVacancy[]>) {
-      state.fetchedData = action.payload
+    setVacancies (state, action: PayloadAction<IVacancy[]>) {
+      state.vacancies = action.payload
+    },
+    addVacancy (state, action: PayloadAction<IVacancy>) {
+      if (state.vacancies.length > 0) {
+        state.vacancies.push(action.payload)
+      }
+    },
+    removeVacancy (state, action: PayloadAction<{id: string}>) {
+      if (state.vacancies.length > 0) {
+        state.vacancies = state.vacancies.filter((vacancy) => vacancy.id !== action.payload.id)
+      }
+    },
+    updateVacancy (state, action: PayloadAction<IVacancy>) {
+      if (state.vacancies.length > 0) {
+        state.vacancies = state.vacancies.map((vacancy) => {
+          if (vacancy.id === action.payload.id) {
+            return action.payload
+          }
+          return vacancy
+        })
+      }
     },
   }
 })
 
-export const { setVacanciesData } = vacanciesSlice.actions
+export const { setVacancies, addVacancy, updateVacancy, removeVacancy } = vacanciesSlice.actions
 
 export default vacanciesSlice.reducer
