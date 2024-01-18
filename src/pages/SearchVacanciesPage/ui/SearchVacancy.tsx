@@ -9,7 +9,7 @@ import { Pagination, type PaginationProps } from 'antd'
 import { type IVacancy } from 'entities/Vacancy/types'
 import { getDisplayedItemsFromDataArray } from './helpers/getDisplayedItemsFromDataArray'
 import { SearchVacancyBar } from './SearchVacancyBar/SearchVacancyBar'
-import { useTypedDispatch, useTypedSelector } from 'app/store'
+import { useTypedSelector } from 'app/store'
 import { SortVacancyInterface } from 'Features/SortVacancy'
 import { FilterVacancyInterface } from 'Features/FilterVacancy'
 

@@ -28,7 +28,7 @@ export const convertFormDataToNewVacancy = (data: IFormInput, createdBy: ICreate
     },
     salary: {
       currency,
-      value: currencyValue
+      value: Number(currencyValue)
     },
     description,
     requirements,

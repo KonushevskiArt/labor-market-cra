@@ -1,13 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { IVacancy } from '../types'
+import { IFilters } from 'shared/types/IFilters'
 
 interface IState {
-  vacancies: IVacancy[]
+  vacancies: IVacancy[],
+  filters: IFilters
 }
 
 const initialState: IState = {
-  vacancies: []
+  vacancies: [],
+  filters: {
+    employment: '',
+    city: '',
+    salaryFrom: 0,
+    salaryTo: 0,
+    workExperience: 0
+  }
 }
 
 const vacanciesSlice = createSlice({
@@ -37,9 +46,12 @@ const vacanciesSlice = createSlice({
         })
       }
     },
+    addRequestFilters (state, action: PayloadAction<IFilters>) {
+      state.filters = action.payload
+    }, 
   }
 })
 
-export const { setVacancies, addVacancy, updateVacancy, removeVacancy } = vacanciesSlice.actions
+export const { setVacancies, addVacancy, updateVacancy, removeVacancy, addRequestFilters } = vacanciesSlice.actions
 
 export default vacanciesSlice.reducer

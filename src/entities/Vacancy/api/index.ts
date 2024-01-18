@@ -1,7 +1,9 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp, updateDoc, query, where, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, serverTimestamp, updateDoc, query, where, setDoc, and} from 'firebase/firestore'
 import { db } from 'app/firebase'
 import { type IVacancy, type INewVacancy } from 'entities/Vacancy/types'
+import { IFilters } from 'shared/types/IFilters'
+import { makePiecesOfQueryFromFilters } from './helpers/makePiecesOfQueryFromFilters'
 
 export const vacanciesApi = createApi({
   reducerPath: 'vacancyApi',
@@ -9,14 +11,17 @@ export const vacanciesApi = createApi({
   tagTypes: ['Vacancies', 'VacanciesByUid'],
   endpoints: (builder) => ({
     fetchVacancies: builder.query({
-      async queryFn (title: string) {
+      async queryFn ({title, filters}: {title: string, filters: IFilters}) {
+
         try {
           const vacanciesRef = collection(db, 'vacancies')
-          
-          const q = title.trim() !== '' 
-          ? query(vacanciesRef, where('title', '==', `${title}`))
-          : query(vacanciesRef)
-    
+
+          const piecesOfQuery = makePiecesOfQueryFromFilters(filters, title)
+
+          const q = query(vacanciesRef,
+            and(...piecesOfQuery)
+          )
+
           const querySnapshot = await getDocs(q)
           const vacancies = [] as any
           //  add validation of the response
@@ -28,7 +33,7 @@ export const vacanciesApi = createApi({
               ...data
             })
           })
-
+          
           const TypedVacancies = vacancies as IVacancy[]
           return { data: TypedVacancies }
         } catch (error) {
@@ -66,7 +71,6 @@ export const vacanciesApi = createApi({
     addVacancyApi: builder.mutation({
       async queryFn (data: IVacancy): Promise<{ data: string } | any> {
         try {
-          // await addDoc(collection(db, 'vacancies', data.id), data)
           await setDoc(doc(db, 'vacancies', data.id), data);
           return { data: 'ok' }
         } catch (error) {
@@ -89,6 +93,8 @@ export const vacanciesApi = createApi({
     updateVacancyApi: builder.mutation({
       async queryFn ({ id, vacancy }: { id: string, vacancy: INewVacancy }): Promise<{ data: string } | any> {
         try {
+          console.log(vacancy);
+          
           await updateDoc(doc(db, 'vacancies', id), {
             ...vacancy,
             timestamp: serverTimestamp()

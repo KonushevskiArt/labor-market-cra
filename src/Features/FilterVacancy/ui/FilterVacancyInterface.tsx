@@ -3,78 +3,73 @@ import cls from './FilterVacancyInterface.module.scss'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { SearchOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, SaveOutlined } from '@ant-design/icons';
+import { useTypedDispatch, useTypedSelector } from 'app/store';
+import { IFilters } from 'shared/types/IFilters';
+import { addRequestFilters } from 'entities/Vacancy/model/vacanciesSlice';
 
-interface IFinters {
-  employment: string
-  city: string
-  salaryFrom: number,
-  salaryTo: number,
-  experienceFrom: number,
-  experienceTo: number, 
+type validationResult = {
+  isError: boolean, 
+  fieldName?: keyof IFilters, 
+  errorMessage?: string
 }
 
 export const FilterVacancyInterface = () => {
+  const filters = useTypedSelector((state) => state.vacancies.filters)
+
   const {
     control,
     handleSubmit,
-    reset,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useForm({
     defaultValues: {
-      employment: '',
-      city: '',
-      salaryFrom: 0,
-      salaryTo: 0,
-      experienceFrom: 0,
-      experienceTo: 0, 
+      employment: filters.employment,
+      city: filters.city,
+      salaryFrom: filters.salaryFrom,
+      salaryTo: filters.salaryTo,
+      workExperience: filters.workExperience
     }
   })
-
-  const [isError, setError] = useState(false)
-  const [isLoading, setLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+  const dispatch = useTypedDispatch()
 
   const { t } = useTranslation()
 
-  const filterDataValidation = (data: IFinters) => {
+  const [isInstalledFilters, setInstalledFilters] = useState(false)
+
+  const filterDataValidation = (data: IFilters): validationResult => {
     const {
       salaryFrom,
       salaryTo,
-      experienceFrom,
-      experienceTo
     } = data
-    if (salaryFrom > salaryTo) {
-      return {isError: true, errorMessage: t('theLowerThresholdOfSalaryExceeds')} 
-    } else if (experienceFrom > experienceTo) {
-      return {isError: true, errorMessage: t('theLowerThresholdOfExperienceExceeds')}
+    if (salaryFrom && salaryTo && salaryFrom > salaryTo) {
+      return {isError: true, fieldName: 'salaryTo', errorMessage: t('theLowerThresholdOfSalaryExceeds')} 
     } else {
-      return {isError: false, errorMessage: ''}
+      return {isError: false}
     }
   }
 
-  const handleChange = () => {
-    setErrorMessage('')
-    setError(false)
-    console.log('change')
-  }
-
-
-  const onSubmit: SubmitHandler<IFinters> = async (data) => {
+  const onSubmit: SubmitHandler<IFilters> = async (data) => {
     try {
-      // await addVacancyApi(vacancyWithId)
-      console.log(data)
       const validation = filterDataValidation(data)
-      if (validation.isError) {
-        setErrorMessage(validation.errorMessage)
-        setError(validation.isError)
+      if (validation.isError && validation.fieldName) {
+
+        setError(validation.fieldName, {
+          type: "manual",
+          message: validation.errorMessage,
+        })
+      } else {
+        setInstalledFilters(true)
+        setTimeout(() => {
+          setInstalledFilters(false)
+        }, 5000)
       }
-      // add validation 
-      // dispatch(addVacancy(vacancyWithId))
+      dispatch(addRequestFilters(data))
       // reset()
     } catch (error) {
     }
   }
+  const isError = errors.salaryTo;
 
   return (
     <div className={cls.FilterInterface}>
@@ -119,28 +114,16 @@ export const FilterVacancyInterface = () => {
           </div>
 
           <div className={cls.inputWrapper}>
-            <label className={cls.label} htmlFor="experienceFrom">{t('workExperience')}</label>
+            <label className={cls.label} htmlFor="workExperience">{t('workExperience')}</label>
             <div className={cls.wrapperForTwo}>
               <Form.Item className={cls.formItem}>
                 <Controller
-                    name="experienceFrom"
+                    name="workExperience"
                     control={control}
                     render={({ field }) => (
-                      <InputNumber id='experienceFrom' className={cls.input} addonBefore={t('from')} min={0} max={80} {...field} />
+                      <InputNumber id='workExperience' className={cls.input} addonBefore={t('from')} min={0} max={80} {...field} />
                     )}
                   />
-                  {errors.experienceFrom && <span className={cls.error}>{errors.experienceFrom.message}</span>}
-              </Form.Item>
-
-              <Form.Item className={cls.formItem}>
-                <Controller
-                    name="experienceTo"
-                    control={control}
-                    render={({ field }) => (
-                      <InputNumber id='experienceTo' className={cls.input} addonBefore={t('to')} min={0} max={80} {...field} />
-                    )}
-                  />
-                  {errors.experienceTo && <span className={cls.error}>{errors.experienceTo.message}</span>}
               </Form.Item>
             </div>
           </div>
@@ -168,23 +151,26 @@ export const FilterVacancyInterface = () => {
                       <InputNumber id='salaryTo' className={cls.input} addonBefore={t('to')} min={0} max={9999999} {...field} />
                     )}
                   />
-                  {errors.salaryTo && <span className={cls.error}>{errors.salaryTo.message}</span>}
               </Form.Item>
             </div>
+            {errors.salaryTo && <span className={cls.error}>{errors.salaryTo.message}</span>}
           </div>
 
           <Button
-              disabled={Boolean(isLoading || isError)}
-              loading={Boolean(isLoading)}
+              disabled={Boolean(isError)}
               htmlType="submit"
               size='middle'
               type='primary'
-              icon={<SearchOutlined  />}
+              className={cls.button}
+              icon={<SaveOutlined />}
             >
-              {t('search')}
-            </Button>
-                      
-          <p className={cls.error}>{errorMessage}</p>
+              {t('save')}
+            </Button>  
+            {isInstalledFilters && <p className={cls.filtersInstalled}>
+              <CheckCircleOutlined className='icon' />
+              <span>{t('filtersInstalled')}</span>
+              </p>
+            }        
         </Form>
     </div>
   );

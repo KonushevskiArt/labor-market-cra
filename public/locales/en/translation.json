@@ -70,5 +70,6 @@
   "from": "from",
   "to": "to",
   "theLowerThresholdOfExperienceExceeds": "the lower threshold of work experience exceeds the upper one",
-  "theLowerThresholdOfSalaryExceeds": "the lower salary threshold exceeds the upper one"
+  "theLowerThresholdOfSalaryExceeds": "the lower salary threshold exceeds the upper one",
+  "filtersInstalled": "Filters installed"
 }

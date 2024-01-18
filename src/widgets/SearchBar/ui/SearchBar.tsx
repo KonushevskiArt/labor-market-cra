@@ -15,7 +15,7 @@ export const SearchBar: FC<SearchBarProps> = ({ onClick }) => {
   const { t } = useTranslation()
 
   const onSearch = (value: string): void => {
-    onClick(value)
+    onClick(value.trim())
   }
 
   return (

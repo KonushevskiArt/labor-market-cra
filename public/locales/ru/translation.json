@@ -68,5 +68,6 @@
   "from": "от",
   "to": "до",
   "theLowerThresholdOfExperienceExceeds": "нижний порог стажа работы превышает верхний",
-  "theLowerThresholdOfSalaryExceeds": "нижний порог зарплаты превышает верхний"
+  "theLowerThresholdOfSalaryExceeds": "нижний порог зарплаты превышает верхний",
+  "filtersInstalled": "Фильтры установлены "
 }

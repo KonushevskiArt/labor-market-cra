@@ -59,6 +59,7 @@ const CreateVacancyPage: FC = () => {
       if (uid && userName) { 
         const createdBy = { userName, uid }
         const newVacancy = convertFormDataToNewVacancy(data, createdBy)
+        console.log(newVacancy)
         const vacancyWithId = {...newVacancy, id: uuidv4()}
         await addVacancyApi(vacancyWithId)
 
