@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import { useCallback, type FC } from 'react'
 import type React from 'react'
 import { useMemo, useState } from 'react'
 import {
@@ -20,9 +20,9 @@ const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
 
   const { defaultAlgorithm, darkAlgorithm } = antdTheme
 
-  const toggleTheme = (newTheme: Theme): void => {
+  const toggleTheme =  useCallback((newTheme: Theme): void => {
     setTheme(newTheme)
-  }
+  }, [setTheme])
 
   const defaultProps = useMemo(
     () => ({

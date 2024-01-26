@@ -50,25 +50,22 @@ export const FilterVacancyInterface = () => {
   }
 
   const onSubmit: SubmitHandler<IFilters> = async (data) => {
-    try {
-      const validation = filterDataValidation(data)
-      if (validation.isError && validation.fieldName) {
+    const validation = filterDataValidation(data)
+    if (validation.isError && validation.fieldName) {
 
-        setError(validation.fieldName, {
-          type: "manual",
-          message: validation.errorMessage,
-        })
-      } else {
-        setInstalledFilters(true)
-        setTimeout(() => {
-          setInstalledFilters(false)
-        }, 5000)
-      }
-      dispatch(addRequestFilters(data))
-      // reset()
-    } catch (error) {
+      setError(validation.fieldName, {
+        type: "manual",
+        message: validation.errorMessage,
+      })
+    } else {
+      setInstalledFilters(true)
+      setTimeout(() => {
+        setInstalledFilters(false)
+      }, 5000)
     }
+    dispatch(addRequestFilters(data))
   }
+  
   const isError = errors.salaryTo;
 
   return (

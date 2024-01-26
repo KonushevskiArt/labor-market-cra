@@ -1,0 +1,9 @@
+.header {
+  width: 100%;
+  max-width: 1200px;
+  height: var(--navbar-height);
+  background: var(--navbar-bg);
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}

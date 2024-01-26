@@ -1,15 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { IVacancy } from '../types'
 import { IFilters } from 'shared/types/IFilters'
+import { RootState } from 'app/store'
+import { sortByFieldsMap } from './helpers/sortByFieldsMap'
+
+type sortBy = 'workExperience' | 'posted'| 'salary' | 'none'
+
+interface ISortBy {
+  sortBy: sortBy
+  isUp: boolean
+}
 
 interface IState {
   vacancies: IVacancy[],
-  filters: IFilters
+  filters: IFilters,
+  sortBy: ISortBy
 }
 
 const initialState: IState = {
   vacancies: [],
+  sortBy: {
+    sortBy: 'none',
+    isUp: false
+  },
   filters: {
     employment: '',
     city: '',
@@ -49,9 +63,25 @@ const vacanciesSlice = createSlice({
     addRequestFilters (state, action: PayloadAction<IFilters>) {
       state.filters = action.payload
     }, 
+    setSortBy (state, action: PayloadAction<{ sortBy: sortBy, isUp: boolean }>) {
+      const {sortBy, isUp} = action.payload
+      state.sortBy = {
+        sortBy,
+        isUp
+      }
+    },
   }
 })
 
-export const { setVacancies, addVacancy, updateVacancy, removeVacancy, addRequestFilters } = vacanciesSlice.actions
+export const { setVacancies, addVacancy, updateVacancy, removeVacancy, addRequestFilters, setSortBy } = vacanciesSlice.actions
+
+export const allVacancies = (state: RootState) => state.vacancies.vacancies
+export const sortBy = (state: RootState) => state.vacancies.sortBy
+
+export const memorizedAllVacancies = createSelector([allVacancies, sortBy], (allVacancies, sortOptions) => {
+  console.log('memorized selector run');
+
+  return sortByFieldsMap[sortOptions.sortBy](allVacancies, sortOptions.isUp)
+})
 
 export default vacanciesSlice.reducer

@@ -13,7 +13,6 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-// export const db = getFirestore(app)
 
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true
