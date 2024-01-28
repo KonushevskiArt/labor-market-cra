@@ -8,14 +8,17 @@ import {
   InputNumber,
   Select
 } from 'antd'
+import { v4 as uuidv4 } from 'uuid';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { PlusSquareOutlined } from '@ant-design/icons'
-import { useAddVacancyMutation } from 'entities/Vacancy/api'
+import { useAddVacancyApiMutation } from 'entities/Vacancy/api'
 import { useAuth } from 'shared/hooks/useAuth'
 import toast from 'react-hot-toast'
 import { type IFormInput } from 'shared/types/IFormInput'
 import { convertFormDataToNewVacancy } from 'shared/helpers/convertFormDataToNewVacancy'
+import { useTypedDispatch } from 'app/store';
+import { addVacancy } from 'entities/Vacancy/model/vacanciesSlice';
 
 const { TextArea } = Input
 
@@ -36,11 +39,11 @@ const CreateVacancyPage: FC = () => {
     }
   })
 
-  console.log(reset)
+  const dispatch = useTypedDispatch()
 
   const { t } = useTranslation()
   const { uid, userName } = useAuth()
-  const [addVacancy, { isLoading }] = useAddVacancyMutation()
+  const [addVacancyApi, { isLoading }] = useAddVacancyApiMutation()
 
   // const employmentMap = {
   //   fourHoursPerDay: t('fourHoursPerDay'),
@@ -56,7 +59,11 @@ const CreateVacancyPage: FC = () => {
       if (uid && userName) { 
         const createdBy = { userName, uid }
         const newVacancy = convertFormDataToNewVacancy(data, createdBy)
-        await addVacancy(newVacancy)
+        console.log(newVacancy)
+        const vacancyWithId = {...newVacancy, id: uuidv4()}
+        await addVacancyApi(vacancyWithId)
+
+        dispatch(addVacancy(vacancyWithId))
         reset()
       }
     } catch (error) {

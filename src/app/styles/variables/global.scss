@@ -56,3 +56,11 @@
   height: 20px;
   width: 20px;
 }
+
+.bigIcon {
+  & > svg {
+  height: 30px;
+  width: 30px;
+}
+}
+  

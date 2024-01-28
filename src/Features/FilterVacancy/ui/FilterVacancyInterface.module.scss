@@ -1,0 +1,77 @@
+.FilterInterface {
+  display: inline-block;
+  width: 300px;
+  height: fit-content;
+  padding: 20px;
+  background-color: (var(--second-bg-color));
+}
+
+.filtersInstalled {
+  margin-top: 15px;
+  font-size: var(--font-size-md);
+  color: var(--link-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > span {
+    margin-left: 10px;
+  }
+}
+
+
+.wrapper {
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--second-bg-color);
+  max-width: 1200px;
+}
+
+.error {
+  display: block;
+  font-size: var(--font-size-md);
+  color: var(--error-color);
+}
+
+.inputsWrapper {
+  box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 20%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  min-width: 300px;
+  border: 1px solid white;
+}
+
+.label.label {
+  font-weight: bold;
+  display: block;
+}
+
+.formItem {
+  margin: 0;
+}
+
+.wrapperForTwo {
+  display: flex;
+  gap: 20px;
+}
+
+.input {
+  margin: 0;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 25px;
+}
+
+.inputWrapper {
+  gap: 15px;
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

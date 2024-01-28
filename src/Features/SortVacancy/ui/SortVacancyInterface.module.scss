@@ -1,0 +1,15 @@
+.sortWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+@media (width <= 576px) {
+  .sortWrapper {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  } 
+}

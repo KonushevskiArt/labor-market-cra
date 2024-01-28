@@ -15,6 +15,7 @@ import { Toaster } from 'react-hot-toast'
 import { useAuth } from 'shared/hooks/useAuth'
 import { Logout } from 'Features/Auth/Logout'
 import { CopyRight } from './components/CopyRight/CopyRight'
+import { ButtonToTop } from 'widgets/ButtonToTop'
 
 const AppLayout: React.FC = () => {
   const { theme } = useTheme()
@@ -40,6 +41,7 @@ const AppLayout: React.FC = () => {
 
         <main className={cls.main}>
           <AppRouter />
+          <ButtonToTop />
         </main>
 
         <footer className={cls.footer}>
